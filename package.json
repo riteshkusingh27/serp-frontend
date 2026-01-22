@@ -1,0 +1,22 @@
+{
+  "name": "school-erp-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal School ERP catalog frontend",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "framer-motion": "^11.0.24",
+    "gsap": "^3.14.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.2",
+    "vite": "^5.2.0"
+  }
+}
