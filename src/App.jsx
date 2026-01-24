@@ -20,6 +20,7 @@ export default function App() {
   const [form, setForm] = useState({ name: '', email: '', institution: '', address: '', message: '' });
   const [status, setStatus] = useState('idle');
   const [feedback, setFeedback] = useState('');
+  const [navOpen, setNavOpen] = useState(false);
   const heroTagRef = useRef(null);
   const previewGroups = useMemo(() => [
     [prev1, image1, image2],
@@ -30,6 +31,9 @@ export default function App() {
   const handleChange = (field) => (e) => {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
   };
+
+  const toggleNav = () => setNavOpen((prev) => !prev);
+  const closeNav = () => setNavOpen(false);
 
   useGSAP(() => {
     if (!heroTagRef.current) return;
@@ -47,6 +51,17 @@ export default function App() {
     }, 4000);
     return () => clearInterval(id);
   }, [previewGroups]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 900) {
+        setNavOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,15 +91,26 @@ export default function App() {
 
   return (
     <div className="page">
-      <header className="topbar">
+      <header className={`topbar ${navOpen ? 'nav-open' : ''}`}>
         <div className="brand">
           <img src={logo} alt="SERP Vidya ERP" className="brand-logo" />
         </div>
-        <nav>
-          <a href="#about">About</a>
-          <a href="#features">Features</a>
-          <a href="#support">Support</a>
-          <a href="#contact">Contact</a>
+        <button
+          type="button"
+          className="menu-toggle"
+          aria-label="Toggle navigation"
+          aria-expanded={navOpen}
+          onClick={toggleNav}
+        >
+          <span className="menu-line" />
+          <span className="menu-line" />
+          <span className="menu-line" />
+        </button>
+        <nav className={`top-nav ${navOpen ? 'open' : ''}`}>
+          <a href="#about" onClick={closeNav}>About</a>
+          <a href="#features" onClick={closeNav}>Features</a>
+          <a href="#support" onClick={closeNav}>Support</a>
+          <a href="#contact" onClick={closeNav}>Contact</a>
         </nav>
         <a className="top-cta" href="#contact">Contact Us</a>
       </header>
